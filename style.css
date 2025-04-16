@@ -1,0 +1,447 @@
+/* --- Global Styles & Variables --- */
+:root {
+    --cream: #fdf8f0; /* Lighter cream */
+    --terracotta: #e07a5f; /* Warm reddish-orange */
+    --sage-green: #81b29a;
+    --dark-text: #3d405b; /* Darker color for text */
+    --card-bg: #ffffff;
+    --shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    --border-radius: 12px;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    /* background-color: var(--cream); */ /* Removed or commented out */
+    color: var(--dark-text);
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+
+    /* --- Add these lines --- */
+    background-image: url('main.jpg'); /* Path to your image */
+    background-repeat: no-repeat;     /* Prevents the image from tiling */
+    background-position: center center; /* Centers the image */
+    background-attachment: fixed;     /* Makes the background stay fixed when scrolling */
+    background-size: cover;           /* Scales the image to cover the entire background area */
+    /* --- End of added lines --- */
+}
+h1, h2, h3 {
+    font-weight: 600;
+    color: var(--terracotta);
+    text-align: center;
+}
+
+header {
+    background-color: var(--sage-green);
+    color: var(--cream);
+    padding: 1rem 0;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+header h1 {
+    color: var(--cream);
+    margin: 0;
+    font-size: 2em;
+}
+
+main {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+
+section.card {
+    background-color: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: 1.5rem 2rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow);
+    overflow: hidden; /* Important for fireworks container */
+    position: relative; /* Needed for absolute positioning inside */
+}
+
+/* --- 1. Countdown Timer --- */
+#countdown-section {
+    text-align: center;
+    background-color: wheat;
+}
+
+#countdown-timer {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1rem 0;
+    font-size: 1.2em;
+    flex-wrap: wrap; /* Wrap on smaller screens */
+}
+
+#countdown-timer div {
+    background-color: var(--sage-green);
+    color: var(--cream);
+    padding: 0.8rem 1.2rem;
+    border-radius: 8px;
+    min-width: 80px; /* Ensure minimum width */
+    text-align: center;
+}
+
+#countdown-timer span {
+    display: block;
+    font-size: 2em;
+    font-weight: 600;
+}
+
+#birthday-message h2 {
+    color: var(--terracotta);
+    
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* --- Fireworks --- */
+#fireworks-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    pointer-events: none; /* Allows clicks to go through */
+    z-index: 10;
+    display: none; /* Hidden by default */
+}
+
+#fireworks-container.active {
+    display: block; /* Show when active */
+}
+
+/* Simple CSS Firework Particle */
+.firework {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background-color: gold; /* Base color */
+    border-radius: 50%;
+    opacity: 1;
+    animation: explode 0.8s ease-out forwards;
+    box-shadow: 0 0 5px gold, 0 0 10px gold; /* Glow effect */
+}
+
+@keyframes explode {
+    0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(var(--x), var(--y)) scale(0); /* Custom properties set by JS */
+        opacity: 0;
+    }
+}
+
+/* --- 2. Video Wall --- */
+.video-grid {
+    background-color: antiquewhite;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); /* Responsive grid */
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.video-grid figure {
+    margin: 0;
+    background-color: var(--cream);
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.08);
+}
+
+.video-grid video,
+.video-grid iframe {
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9; /* Maintain aspect ratio */
+    border-radius: 5px;
+    border: none;
+}
+
+.video-grid figcaption {
+    text-align: center;
+    margin-top: 0.5rem;
+    font-size: 0.9em;
+    color: var(--dark-text);
+}
+
+/* --- 3. Handwritten Letter --- */
+#letter-section .letter-container {
+    background-color: #fffaf2; /* Slightly different cream */
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    position: relative; /* For absolute positioning of doodles */
+    overflow: hidden; /* Keep doodles contained */
+    min-height: 300px; /* Ensure space for text and doodles */
+    border: 1px solid var(--sage-green);
+}
+
+.cursive-text {
+    font-family: 'Dancing Script', cursive;
+    font-size: 1.8em; /* Larger cursive font */
+    line-height: 1.7;
+    color: var(--dark-text);
+    opacity: 0; /* Initially hidden */
+    animation: fadeInLetter 2.5s ease-out 0.5s forwards; /* Fade in after 0.5s delay */
+    position: relative; /* Ensure text is above doodles */
+    z-index: 2;
+}
+
+@keyframes fadeInLetter {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Floating Doodles --- */
+.doodle {
+    position: absolute;
+    width: 50px; /* Adjust size as needed */
+    height: auto;
+    opacity: 0.3; /* Make them subtle */
+    z-index: 1; /* Behind the text */
+    animation: float 20s infinite ease-in-out alternate;
+}
+
+.doodle1 { top: 10%; left: 5%; animation-duration: 22s; }
+.doodle2 { top: 20%; right: 10%; animation-duration: 18s; animation-delay: 3s; }
+.doodle3 { bottom: 15%; left: 15%; animation-duration: 25s; animation-delay: 1s; }
+.doodle4 { bottom: 5%; right: 20%; animation-duration: 20s; animation-delay: 5s; }
+/* Add more doodle classes if needed */
+
+@keyframes float {
+    0% { transform: translateY(0px) translateX(0px) rotate(0deg); }
+    50% { transform: translateY(-15px) translateX(10px) rotate(10deg); }
+    100% { transform: translateY(5px) translateX(-5px) rotate(-5deg); }
+}
+
+
+/* --- 4. Password Vault --- */
+#vault-section {
+    text-align: center;
+    background-color: wheat;
+}
+
+#vault-lock input[type="password"] {
+    padding: 10px;
+    margin: 10px 5px;
+    border: 1px solid var(--sage-green);
+    border-radius: 5px;
+    font-size: 1em;
+    width: 100px; /* Fixed width for PIN */
+    text-align: center;
+}
+
+#vault-lock button {
+    padding: 10px 20px;
+    background-color: var(--terracotta);
+    color: var(--cream);
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#vault-lock button:hover {
+    background-color: #d16a4f; /* Darker terracotta */
+}
+
+.error-message {
+    color: red;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+
+#vault-content {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background-color: var(--cream);
+    border-radius: 8px;
+}
+
+/* --- 5. Memory Match Game --- */
+#memory-game-section .game-intro {
+    
+    text-align: center;
+    margin-bottom: 1rem;
+    font-size: 1.1em;
+}
+#memory-game-section p {
+    background-color: wheat;
+     text-align: center;
+     font-size: 1.1em;
+     margin-bottom: 1rem;
+     font-weight: bold;
+}
+
+.memory-game-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 columns */
+    gap: 1rem;
+    max-width: 500px; /* Limit width for better grid on large screens */
+    margin: 1rem auto;
+    perspective: 1000px; /* Needed for 3D flip effect */
+}
+
+.memory-card {
+    background-color: transparent;
+    height: 100px; /* Adjust size as needed */
+    border-radius: 8px;
+    position: relative;
+    cursor: pointer;
+    transform-style: preserve-3d; /* Enable 3D space for children */
+    transition: transform 0.6s;
+    box-shadow: var(--shadow);
+}
+
+.memory-card:active {
+    transform: scale(0.97); /* Slight shrink on click */
+}
+
+.memory-card.flip {
+    transform: rotateY(180deg); /* Flip the card */
+}
+
+.memory-card.matched {
+    cursor: default;
+    opacity: 0.6; /* Indicate matched */
+    /* Optional: remove shadow or add border */
+     box-shadow: none;
+     border: 2px solid var(--sage-green);
+}
+
+
+.front-face,
+.back-face {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden; /* Hide the back side of the element */
+    border-radius: 8px;
+    object-fit: cover; /* Ensure images cover the card */
+}
+
+.front-face {
+    transform: rotateY(180deg); /* Hide front face initially */
+}
+
+.back-face {
+     background-color: var(--sage-green); /* Fallback color */
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     /* If using a background image for card back: */
+     background-image: url('assets/images/card_back.png');
+     background-size: cover;
+     background-position: center;
+}
+
+#reset-game-button {
+    display: block;
+    margin: 1.5rem auto 0;
+    padding: 10px 25px;
+    background-color: var(--terracotta);
+    color: var(--cream);
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+#reset-game-button:hover {
+     background-color: #d16a4f;
+}
+
+/* --- Footer --- */
+footer {
+    text-align: center;
+    margin-top: 3rem;
+    padding: 1rem;
+    color: var(--dark-text);
+    font-size: 0.9em;
+}
+
+/* --- Responsiveness --- */
+@media (max-width: 768px) {
+    header h1 {
+        font-size: 1.8em;
+    }
+    main {
+        padding: 0 0.5rem;
+    }
+    section.card {
+        padding: 1rem 1.2rem;
+    }
+    .video-grid {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+    .cursive-text {
+        font-size: 1.5em;
+    }
+    #countdown-timer {
+        font-size: 1em;
+        gap: 0.5rem;
+    }
+     #countdown-timer div {
+        padding: 0.6rem 0.8rem;
+        min-width: 65px;
+    }
+     #countdown-timer span {
+        font-size: 1.5em;
+    }
+    .memory-game-grid {
+        max-width: 95%; /* Allow grid to take more width */
+        gap: 0.5rem;
+    }
+    .memory-card {
+        height: 80px; /* Smaller cards on mobile */
+    }
+    .doodle {
+         width: 35px;
+         opacity: 0.2;
+    }
+}
+
+@media (max-width: 480px) {
+     header h1 {
+        font-size: 1.5em;
+    }
+    .video-grid {
+        grid-template-columns: 1fr; /* Single column on very small screens */
+    }
+    .cursive-text {
+        font-size: 1.3em;
+        line-height: 1.6;
+    }
+    #countdown-timer {
+        flex-direction: column; /* Stack vertically */
+        align-items: center;
+    }
+    #vault-lock input[type="password"] {
+        width: 80px;
+    }
+     .memory-game-grid {
+        grid-template-columns: repeat(4, 1fr); /* Keep 4 columns but they'll be smaller */
+        gap: 0.4rem;
+    }
+    .memory-card {
+         height: 65px; /* Even smaller cards */
+    }
+}
+footer {
+    background-color: var(--sage-green);
+    color: var(--cream);
+    font-size: 0.8em;
+    padding: 0.5rem;
+}

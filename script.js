@@ -1,5 +1,5 @@
 // --- Configuration ---
-const BIRTHDAY_DATE = new Date('2025-04-17T00:0:00');
+const BIRTHDAY_DATE = new Date('2025-04-17T00:00:00');
 const CORRECT_PIN = '2003';
 const PHOTO_FILENAMES = [
     'image(1).jpg',
